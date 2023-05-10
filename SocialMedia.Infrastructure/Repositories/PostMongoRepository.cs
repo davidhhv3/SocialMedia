@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Infrastructure.Repositories
 {
-    public class PostRepository: IPostRepository
+    public class PostMongoRepository : IPostRepository
     {
         public async Task<IEnumerable<Post>> GetPosts()
         {
