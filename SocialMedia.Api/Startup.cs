@@ -29,12 +29,15 @@ namespace SocialMedia.Api
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddControllers()
+            services.AddControllers(options =>
+            {
+                options.Filters.Add<GlobalExceptionFilter>();
+            })
             .ConfigureApiBehaviorOptions(options =>
             {
                 //options.SuppressModelStateInvalidFilter = true;
             });
-         
+
             services.AddDbContext<SocialMediaContext>(options =>
               options.UseSqlServer(Configuration.GetConnectionString("SocialMedia"))
             );
