@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Api.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class PostController : ControllerBase
@@ -29,8 +30,13 @@ namespace SocialMedia.Api.Controllers
             _uriService = uriService;
         }
 
+        /// <summary>
+        /// Retrieve all posts
+        /// </summary>
+        /// <param name="filters">Filters to apply</param>
+        /// <returns></returns>
         [HttpGet(Name = nameof(GetPosts))]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<IEnumerable<PostDto>>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public IActionResult GetPosts([FromQuery]PostQueryFilter filters)
         {
@@ -44,9 +50,7 @@ namespace SocialMedia.Api.Controllers
                 CurrentPage = posts.CurrentPage,
                 TotalPages = posts.TotalPages,
                 HasNextPage = posts.HasNextPage,
-                HasPreviousPage = posts.HasPreviousPage,
-                //NextPageUrl = _uriService.GetPostPaginationUri(filters, Url.RouteUrl(nameof(GetPosts))).ToString(),
-                //PreviousPageUrl = _uriService.GetPostPaginationUri(filters, Url.RouteUrl(nameof(GetPosts))).ToString()
+                HasPreviousPage = posts.HasPreviousPage,              
                 NextPageUrl = _uriService.GetPostPaginationUri(filters, Url.RouteUrl(nameof(GetPosts))).ToString(),
                 PreviousPageUrl = _uriService.GetPostPaginationUri(filters, Url.RouteUrl(nameof(GetPosts))).ToString()
             };
